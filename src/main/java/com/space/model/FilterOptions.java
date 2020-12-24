@@ -2,9 +2,14 @@ package com.space.model;
 
 import com.space.controller.ShipOrder;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import java.sql.Date;
+
 public class FilterOptions {
     private String name;
     private String planet;
+    @Enumerated(EnumType.STRING)
     private ShipType shipType;
     private Long after;
     private Long before;
@@ -17,24 +22,33 @@ public class FilterOptions {
     private ShipOrder order;
     private Integer pageNumber;
     private Integer pageSize;
+    private Boolean isUsed;
 
     public FilterOptions() {
     }
 
-    public Long getAfter() {
-        return after;
+    public Boolean getUsed() {
+        return isUsed;
+    }
+
+    public void setUsed(Boolean used) {
+        isUsed = used;
+    }
+
+    public Date getAfter() {
+        return after == null ? null : new Date(after);
     }
 
     public void setAfter(Long after) {
         this.after = after;
     }
 
-    public Long getBefore() {
-        return before;
-    }
-
     public void setBefore(Long before) {
         this.before = before;
+    }
+
+    public Date getBefore() {
+        return before == null ? null : new Date(before);
     }
 
     public Double getMinSpeed() {
@@ -109,24 +123,28 @@ public class FilterOptions {
         this.pageSize = pageSize;
     }
 
+    // Поиск по полям name и planet происходить по частичному соответствию. Например, если в БД есть корабль с именем
+    // «Левиафан», а параметр name задан как «иа» - такой корабль должен отображаться в результатах (Левиафан).
     public String getName() {
-        return name;
+        return name == null ? null : "%" + name + "%";
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    // Поиск по полям name и planet происходить по частичному соответствию. Например, если в БД есть корабль с именем
+    // «Левиафан», а параметр name задан как «иа» - такой корабль должен отображаться в результатах (Левиафан).
     public String getPlanet() {
-        return planet;
+        return planet == null ? null : "%" + planet + "%";
     }
 
     public void setPlanet(String planet) {
         this.planet = planet;
     }
 
-    public ShipType getShipType() {
-        return shipType;
+    public String getShipType() {
+        return shipType == null ? null : shipType.name();
     }
 
     public void setShipType(ShipType shipType) {

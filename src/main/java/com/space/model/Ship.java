@@ -1,6 +1,8 @@
 package com.space.model;
 
 
+import com.space.Util;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -89,16 +91,18 @@ public class Ship {
         this.prodDate = prodDate;
     }
 
+    // если значение null, то возвращает false
     public Boolean getUsed() {
-        return isUsed;
+        return isUsed == null ? false : isUsed;
     }
 
     public void setUsed(Boolean used) {
         isUsed = used;
     }
 
+    // математическое округление до сотых.
     public Double getSpeed() {
-        return speed;
+        return Util.roundToHundredths(speed);
     }
 
     public void setSpeed(Double speed) {
@@ -114,7 +118,7 @@ public class Ship {
     }
 
     public Double getRating() {
-        return rating;
+        return Util.roundToHundredths(rating);
     }
 
     public void setRating(Double rating) {
