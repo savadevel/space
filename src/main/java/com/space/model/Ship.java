@@ -2,7 +2,6 @@ package com.space.model;
 
 
 import com.space.Util;
-
 import javax.persistence.*;
 import java.sql.Date;
 

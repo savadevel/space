@@ -6,6 +6,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.sql.Date;
 
+
 public class FilterOptions {
     private String name;
     private String planet;
@@ -27,8 +28,18 @@ public class FilterOptions {
     public FilterOptions() {
     }
 
+    public Boolean getIsUsed() {
+        return isUsed;
+    }
+
     public Boolean getUsed() {
         return isUsed;
+    }
+
+    // Если использовать только setUsed, то ModelAttribute не задает поле Boolean из запроса в объекте FilterOptions
+    // т.к. пытается найти "isUsed" (из запроса) по названию метода "setUsed", т.е. "used"
+    public void setIsUsed(Boolean used) {
+        isUsed = used;
     }
 
     public void setUsed(Boolean used) {
@@ -107,6 +118,7 @@ public class FilterOptions {
         this.order = order;
     }
 
+    // Если параметр pageNumber не указан – нужно использовать значение 0.
     public Integer getPageNumber() {
         return pageNumber == null ? 0 : pageNumber;
     }
@@ -115,6 +127,7 @@ public class FilterOptions {
         this.pageNumber = pageNumber;
     }
 
+    // Если параметр pageSize не указан – нужно использовать значение 3.
     public Integer getPageSize() {
         return pageSize == null ? 3 : pageSize;
     }
@@ -143,8 +156,8 @@ public class FilterOptions {
         this.planet = planet;
     }
 
-    public String getShipType() {
-        return shipType == null ? null : shipType.name();
+    public ShipType getShipType() {
+        return shipType;
     }
 
     public void setShipType(ShipType shipType) {

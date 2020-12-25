@@ -31,13 +31,25 @@ public class ShipServiceImpl implements ShipService {
     }
 
     @Override
-    public Integer getCountOfShips(FilterOptions filterOptions) {
-        return (int)shipRepository.count();
+    public Integer getCountOfShips(FilterOptions fo) {
+        return shipRepository.countAllByFilterOptions(
+                fo.getName(),
+                fo.getPlanet(),
+                fo.getShipType(),
+                fo.getAfter(),
+                fo.getBefore(),
+                fo.getUsed(),
+                fo.getMinSpeed(),
+                fo.getMaxSpeed(),
+                fo.getMinCrewSize(),
+                fo.getMaxCrewSize(),
+                fo.getMinRating(),
+                fo.getMaxRating());
     }
 
     @Override
     public List<Ship> getShips(FilterOptions fo) {
-        Pageable pageable = PageRequest.of(0, 20, Sort.by(fo.getOrder().getFieldName()));
+        Pageable pageable = PageRequest.of(fo.getPageNumber(), fo.getPageSize(), Sort.by(fo.getOrder().getFieldName()));
         Page<Ship> notePage = shipRepository.findAllByFilterOptions(
                 pageable,
                 fo.getName(),
@@ -54,14 +66,6 @@ public class ShipServiceImpl implements ShipService {
                 fo.getMaxRating());
 
         return notePage.getContent();
-
-/*
-        return shipRepository.findAll(PageRequest.of(
-                fo.getPageNumber(),
-                fo.getPageSize(),
-                Sort.by(fo.getOrder().getFieldName())))
-                .getContent();
-*/
     }
 
     @Override
@@ -155,7 +159,6 @@ public class ShipServiceImpl implements ShipService {
         srcShip.setRating(null);
 
         // Обновлять нужно только те поля, которые не null.
-        // TODO если все null То не обовлять
         BeanUtils.copyProperties(srcShip, destShip, getPropertyNames(srcShip, true));
 
         destShip.setRating(getRatingShip(destShip));

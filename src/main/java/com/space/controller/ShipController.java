@@ -13,7 +13,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value="/rest")
 public class ShipController {
-
     private final ShipValidator shipValidator;
     private final UpdateShipValidator updateShipValidator;
     private final IdShipValidator idShipValidator;
@@ -31,12 +30,10 @@ public class ShipController {
     }
 
     // получать список всех существующих кораблей
-
-
-    //
+    // получать отфильтрованный список кораблей в соответствии с переданными фильтрами
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/ships")
-    public List<Ship> onListShipsByFilter(@ModelAttribute FilterOptions filterOptions, Boolean isUsed) {
+    public List<Ship> onListShipsByFilter(@ModelAttribute FilterOptions filterOptions) {
         return shipService.getShips(filterOptions);
     }
 
