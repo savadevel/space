@@ -7,16 +7,13 @@ import org.springframework.stereotype.Component;
 //- не целое число
 //- не положительный
 @Component
-public class IdShipValidator  {
+public class IdShipValidator {
 
     // проверка запроса на создание корабля
     public boolean validate(String id) {
         //- не числовой
         //- не целое число
         //- не положительный
-        if (id == null || !id.matches("\\d+") || "0".equals(id))
-            return false;
-
-        return true;
+        return !(id == null || !id.matches("\\d+") || "0".equals(id));
     }
 }

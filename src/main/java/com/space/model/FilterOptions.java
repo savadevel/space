@@ -25,14 +25,7 @@ public class FilterOptions {
     private Integer pageSize;
     private Boolean isUsed;
 
-    public FilterOptions() {
-    }
-
     public Boolean getIsUsed() {
-        return isUsed;
-    }
-
-    public Boolean getUsed() {
         return isUsed;
     }
 
@@ -40,6 +33,10 @@ public class FilterOptions {
     // т.к. пытается найти "isUsed" (из запроса) по названию метода "setUsed", т.е. "used"
     public void setIsUsed(Boolean used) {
         isUsed = used;
+    }
+
+    public Boolean getUsed() {
+        return isUsed;
     }
 
     public void setUsed(Boolean used) {
@@ -54,12 +51,12 @@ public class FilterOptions {
         this.after = after;
     }
 
-    public void setBefore(Long before) {
-        this.before = before;
-    }
-
     public Date getBefore() {
         return before == null ? null : new Date(before);
+    }
+
+    public void setBefore(Long before) {
+        this.before = before;
     }
 
     public Double getMinSpeed() {

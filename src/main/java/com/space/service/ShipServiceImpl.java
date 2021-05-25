@@ -1,10 +1,9 @@
 package com.space.service;
 
-import com.space.Util;
+import com.space.Utils;
 import com.space.model.FilterOptions;
 import com.space.model.Ship;
 import com.space.repository.ShipRepository;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -16,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.beans.PropertyDescriptor;
-import java.util.*;
+import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service("shipService")
 @Transactional(readOnly = true)
@@ -79,7 +81,7 @@ public class ShipServiceImpl implements ShipService {
         // При обновлении или создании корабля игнорируем параметры “id” и “rating” из тела запроса.
         ship.setId(null);
         ship.setRating(getRatingShip(ship));
-        return  shipRepository.save(ship);
+        return shipRepository.save(ship);
     }
 
 
@@ -105,10 +107,10 @@ public class ShipServiceImpl implements ShipService {
         calendar.setTime(ship.getProdDate());
 
         // Рейтинг корабля. Используй математическое округление до сотых.
-        return Util.roundToHundredths(
+        return Utils.roundToHundredths(
                 80d * ship.getSpeed() * (ship.getUsed() ? 0.5d : 1d)
-                /
-                (CURRENT_YEAR - calendar.get(Calendar.YEAR) + 1));
+                        /
+                        (CURRENT_YEAR - calendar.get(Calendar.YEAR) + 1));
     }
 
     @Override
@@ -176,7 +178,7 @@ public class ShipServiceImpl implements ShipService {
 
         Set<String> names = new HashSet<String>();
 
-        for(PropertyDescriptor pd : pds) {
+        for (PropertyDescriptor pd : pds) {
             if ("class".equals(pd.getName()) || "used".equals(pd.getName()))
                 // пропускаем системные атрибуты
                 continue;

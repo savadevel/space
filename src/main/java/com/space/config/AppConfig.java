@@ -36,7 +36,6 @@ public class AppConfig {
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         em.setJpaProperties(additionalProperties());
-
         return em;
     }
 
@@ -54,7 +53,6 @@ public class AppConfig {
     @Profile("dev")
     @Bean(name = "dataSource")
     public DataSource dataSourceForTests() {
-
         return new EmbeddedDatabaseBuilder()
                 .generateUniqueName(true)
                 .setType(H2)
@@ -68,7 +66,6 @@ public class AppConfig {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(emf);
-
         return transactionManager;
     }
 
@@ -81,7 +78,6 @@ public class AppConfig {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.show_sql", "true");
-
         return properties;
     }
 }

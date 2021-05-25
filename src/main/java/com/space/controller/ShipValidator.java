@@ -33,7 +33,7 @@ public class ShipValidator implements Validator {
         Ship ship = (Ship) target;
 
         // указаны не все параметры из Data Params (кроме isUsed)
-        validateEmptyOrWhitespace(ship, errors);
+        validateEmptyOrWhitespace(errors);
         validateStringMaxLength(ship, errors);
         validateRange(ship, errors);
     }
@@ -47,12 +47,12 @@ public class ShipValidator implements Validator {
 
         // Максимальная скорость корабля. Диапазон значений 0,01..0,99 включительно. Используй математическое округление
         // до сотых.
-        if (ship.getSpeed() < 0.01d || ship.getSpeed() > 0.99d){
+        if (ship.getSpeed() < 0.01d || ship.getSpeed() > 0.99d) {
             errors.rejectValue("speed", "Range");
         }
 
         // Количество членов экипажа. Диапазон значений 1..9999 включительно.
-        if (ship.getCrewSize() < 1 || ship.getCrewSize() > 9999){
+        if (ship.getCrewSize() < 1 || ship.getCrewSize() > 9999) {
             errors.rejectValue("crewSize", "Range");
         }
 
@@ -92,7 +92,7 @@ public class ShipValidator implements Validator {
     //“speed”:[Double],
     //“crewSize”:[Integer]
     //}
-    private void validateEmptyOrWhitespace(Ship ship, Errors errors) {
+    private void validateEmptyOrWhitespace(Errors errors) {
 
         if (errors.hasErrors())
             return;

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="/rest")
+@RequestMapping(value = "/rest")
 public class ShipController {
     private final ShipValidator shipValidator;
     private final UpdateShipValidator updateShipValidator;
@@ -89,7 +89,7 @@ public class ShipController {
     }
 
     // удалять корабль;
-    @DeleteMapping ("/ships/{id}")
+    @DeleteMapping("/ships/{id}")
     public ResponseEntity<Void> onDeleteShipById(@PathVariable String id) {
 
         if (!idShipValidator.validate(id)) {
@@ -119,9 +119,9 @@ public class ShipController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        ship = shipService.updateShip(Long.valueOf(id), ship);
+        Ship updated = shipService.updateShip(Long.valueOf(id), ship);
 
         // Если корабль не найден в БД, необходимо ответить ошибкой с кодом 404.
-        return ship == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null) : ResponseEntity.ok(ship);
+        return updated == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(null) : ResponseEntity.ok(updated);
     }
 }

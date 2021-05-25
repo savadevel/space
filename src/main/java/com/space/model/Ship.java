@@ -1,7 +1,8 @@
 package com.space.model;
 
 
-import com.space.Util;
+import com.space.Utils;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -92,7 +93,7 @@ public class Ship {
 
     // если значение null, то возвращает false
     public Boolean getUsed() {
-        return isUsed == null ? false : isUsed;
+        return isUsed != null && isUsed;
     }
 
     public void setUsed(Boolean used) {
@@ -101,7 +102,7 @@ public class Ship {
 
     // математическое округление до сотых.
     public Double getSpeed() {
-        return Util.roundToHundredths(speed);
+        return Utils.roundToHundredths(speed);
     }
 
     public void setSpeed(Double speed) {
@@ -117,7 +118,7 @@ public class Ship {
     }
 
     public Double getRating() {
-        return Util.roundToHundredths(rating);
+        return Utils.roundToHundredths(rating);
     }
 
     public void setRating(Double rating) {
