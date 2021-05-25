@@ -1,4 +1,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2e0dfb57a40d493e92bcb98ddc65e4b5)](https://www.codacy.com/gh/savadevel/space/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=savadevel/space&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/savadevel/space.svg?branch=master)](https://travis-ci.com/savadevel/space)
+
 # Учет космических кораблей
 Приложение учета космических кораблей в далеком будущем (в 3019 году). 
 Поддерживаются следующие возможности:
