@@ -1,6 +1,6 @@
 package com.space.service;
 
-import com.space.Utils;
+import com.space.CommonUtils;
 import com.space.model.FilterOptions;
 import com.space.model.Ship;
 import com.space.repository.ShipRepository;
@@ -107,7 +107,7 @@ public class ShipServiceImpl implements ShipService {
         calendar.setTime(ship.getProdDate());
 
         // Рейтинг корабля. Используй математическое округление до сотых.
-        return Utils.roundToHundredths(
+        return CommonUtils.roundToHundredths(
                 80d * ship.getSpeed() * (ship.getUsed() ? 0.5d : 1d)
                         /
                         (CURRENT_YEAR - calendar.get(Calendar.YEAR) + 1));

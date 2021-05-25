@@ -1,7 +1,7 @@
 package com.space.model;
 
 
-import com.space.Utils;
+import com.space.CommonUtils;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -102,7 +102,7 @@ public class Ship {
 
     // математическое округление до сотых.
     public Double getSpeed() {
-        return Utils.roundToHundredths(speed);
+        return CommonUtils.roundToHundredths(speed);
     }
 
     public void setSpeed(Double speed) {
@@ -118,7 +118,7 @@ public class Ship {
     }
 
     public Double getRating() {
-        return Utils.roundToHundredths(rating);
+        return CommonUtils.roundToHundredths(rating);
     }
 
     public void setRating(Double rating) {
