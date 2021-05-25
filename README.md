@@ -1,4 +1,4 @@
-#  Учет космических кораблей
+# Учет космических кораблей
 Приложение учета космических кораблей в далеком будущем (в 3019 году). 
 Поддерживаются следующие возможности:
 1. получать список всех существующих кораблей;
@@ -11,8 +11,8 @@
 
 ![img.png](img.png)
 
-# REST API
-## Get ships list
+## REST API
+### Get ships list
 |    |    |
 |--- |--- |
 | URL | /ships |
@@ -22,7 +22,7 @@
 | Success Response | Code: 200 OK<br/>Content: [<br/>{<br/>“id”:[Long],<br/>“name”:[String],<br/>“planet”:[String],<br/>“shipType”:[ShipType],<br/>“prodDate”:[Long],<br/>“isUsed”:[Boolean],<br/>“speed”:[Double],<br/>“crewSize”:[Integer],<br/>“rating”:[Double]<br/>},<br/>…<br/>] |
 | Notes | Поиск по полям name и planet происходить по частичному соответствию. Например, если в БД есть корабль с именем «Левиафан», а параметр name задан как «иа» - такой корабль должен отображаться в результатах (Левиафан).<br/>pageNumber – параметр, который отвечает за номер отображаемой страницы при использовании пейджинга. Нумерация начинается с нуля<br/>pageSize – параметр, который отвечает за количество результатов на одной странице при пейджинге |
 
-## Get ships count
+### Get ships count
 |    |    |
 |--- |--- |
 | URL | /ships/count |
@@ -32,7 +32,7 @@
 | Success Response | Code: 200 OK<br/>Content: Integer |
 | Notes |  |
 
-## Create ship
+### Create ship
 |    |    |
 |--- |--- |
 | URL | /ships |
@@ -42,7 +42,7 @@
 | Success Response | Code: 200 OK<br/>Content: {<br/>“id”:[Long],<br/>“name”:[String],<br/>“planet”:[String],<br/>“shipType”:[ShipType],<br/>“prodDate”:[Long],<br/>“isUsed”:[Boolean],<br/>“speed”:[Double],<br/>“crewSize”:[Integer],<br/>“rating”:[Double]<br/>} |
 | Notes | Мы не можем создать корабль, если:<br/>- указаны не все параметры из Data Params (кроме isUsed);<br/>- длина значения параметра “name” или “planet” превышает размер соответствующего поля в БД (50 символов);<br/>- значение параметра “name” или “planet” пустая строка;<br/>- скорость или размер команды находятся вне заданных пределов;<br/>- “prodDate”:[Long] < 0;<br/>- год производства находятся вне заданных пределов.<br/>В случае всего вышеперечисленного ответ с ошибкой и кодом 400. |
 
-## Get ship
+### Get ship
 |    |    |
 |--- |--- |
 | URL | /ships/{id} |
@@ -52,7 +52,7 @@
 | Success Response | Code: 200 OK<br/>Content: {<br/>“id”:[Long],<br/>“name”:[String],<br/>“planet”:[String],<br/>“shipType”:[ShipType],<br/>“prodDate”:[Long],<br/>“isUsed”:[Boolean],<br/>“speed”:[Double],<br/>“crewSize”:[Integer],<br/>“rating”:[Double]<br/>} |
 | Notes | Если корабль не найден в БД, ответ с ошибкой и кодом 404.<br/>Если значение id не валидное, ответ с ошибкой и кодом 400. |
 
-## Update ship
+### Update ship
 |    |    |
 |--- |--- |
 | URL | /ships/{id} |
@@ -62,7 +62,7 @@
 | Success Response | Code: 200 OK<br/>Content: {<br/>“id”:[Long],<br/>“name”:[String],<br/>“planet”:[String],<br/>“shipType”:[ShipType],<br/>“prodDate”:[Long],<br/>“isUsed”:[Boolean],<br/>“speed”:[Double],<br/>“crewSize”:[Integer],<br/>“rating”:[Double]<br/>} |
 | Notes | Обновляются только те поля, которые не null.<br/>Если корабль не найден в БД, ответ с ошибкой и кодом  404.<br/>Если значение id не валидное, ответ с ошибкой и кодом  400. |
 
-## Delete ship
+### Delete ship
 |    |    |
 |--- |--- |
 | URL | /ships/{id} |
