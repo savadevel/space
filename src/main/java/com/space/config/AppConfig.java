@@ -1,13 +1,18 @@
 package com.space.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -17,6 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.Objects;
 import java.util.Properties;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
@@ -24,8 +30,34 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @Configuration
 @EnableTransactionManagement
 @ComponentScan("com.space.service")
+@PropertySource("classpath:app.properties")
 @EnableJpaRepositories(basePackages = "com.space.repository")
 public class AppConfig {
+    @Value("${database.populate}")
+    Resource populateScript;
+
+    private final Environment env;
+
+    public AppConfig(Environment env) {
+        this.env = env;
+    }
+
+    @Profile("prod")
+    @Autowired
+    @Bean
+    public DataSourceInitializer dataSourceInitializer(final DataSource dataSource) {
+        DataSourceInitializer initializer = new DataSourceInitializer();
+        initializer.setDataSource(dataSource);
+        initializer.setEnabled(Boolean.parseBoolean(Objects.requireNonNull(env.getProperty("database.init"))));
+        initializer.setDatabasePopulator(databasePopulator());
+        return initializer;
+    }
+
+    private DatabasePopulator databasePopulator() {
+        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
+        populator.addScript(populateScript);
+        return populator;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -43,10 +75,10 @@ public class AppConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/cosmoport?serverTimezone=UTC");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(Objects.requireNonNull(env.getProperty("database.driver")));
+        dataSource.setUrl(Objects.requireNonNull(env.getProperty("database.url")));
+        dataSource.setUsername(Objects.requireNonNull(env.getProperty("database.username")));
+        dataSource.setPassword(Objects.requireNonNull(env.getProperty("database.password")));
         return dataSource;
     }
 
@@ -76,8 +108,10 @@ public class AppConfig {
 
     private Properties additionalProperties() {
         Properties properties = new Properties();
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.dialect", Objects.requireNonNull(env.getProperty("hibernate.dialect")));
+        properties.setProperty("hibernate.show_sql", Objects.requireNonNull(env.getProperty("hibernate.show_sql")));
+        properties.setProperty("hibernate.format_sql", Objects.requireNonNull(env.getProperty("hibernate.format_sql")));
+        properties.setProperty("hibernate.use_sql_comments", Objects.requireNonNull(env.getProperty("hibernate.use_sql_comments")));
         return properties;
     }
 }

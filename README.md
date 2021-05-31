@@ -14,6 +14,15 @@
 
 ![img.png](img.png)
 
+## Запуск приложения
+1. `git clone https://github.com/savadevel/space`
+2. `cd space`
+3. `docker build -t image_cosmoport .`
+4. `docker-compose up -d`
+
+Приложение доступно по адресу
+http://localhost:8080/cosmoport/
+
 ## REST API
 ### Get ships list
 |    |    |
