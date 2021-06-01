@@ -10,6 +10,7 @@ services:
       MYSQL_DATABASE: cosmoport
 
   cosmoport:
+    build: .
     image: image_cosmoport
     restart: always
     depends_on:
