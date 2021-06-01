@@ -5,7 +5,6 @@ RUN mkdir -p $PROJECT_DIR
 WORKDIR $PROJECT_DIR
 
 COPY ./pom.xml $PROJECT_DIR
-RUN mvn -B clean install -DskipTests -Dcheckstyle.skip -Dasciidoctor.skip
 RUN mvn dependency:resolve
 
 COPY ./src $PROJECT_DIR/src
